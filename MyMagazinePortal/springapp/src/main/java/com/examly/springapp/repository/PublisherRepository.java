@@ -1,33 +1,19 @@
 
 package com.examly.springapp.repository;
 
-import java.util.List;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.examly.springapp.model.Magazine;
+import com.examly.springapp.model.Publisher;
+
 
 @Repository
-public interface MagazineRepository extends JpaRepository<Magazine,Integer> {
-    
-    @Modifying
-    List<Magazine> findByGenre(String genre);
-    List<Magazine> findByReleaseYear(Integer releaseYear);
+public interface PublisherRepository extends JpaRepository<Publisher,Integer>{
 
-    Page<Magazine>findAll(Pageable pageable);
+           @Query("SELECT o FROM Publisher o WHERE o.id = :id")
+    Optional<Publisher>findByEmail(String email);
 
-  
-    @Query("SELECT i FROM Magazine i WHERE i.genre = :genre")
-    List<Magazine>findMagazineByGenre(@Param("genre") String genre);
+      @Query("SELECT i FROM Publisher i WHERE i.address = :address")
+    List<Publisher>findPublisherByAddress(@Param("address") String address);
 
-    @Query("SELECT i FROM Magazine i WHERE i.releaseYear = :releaseYear")
-    List<Magazine>findMagazineByReleaseYear(@Param("releaseYear") Integer releaseYear);
-
-    
 }
